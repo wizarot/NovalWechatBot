@@ -1,0 +1,8 @@
+{
+    "require": {
+        "catfan/Medoo": "^1.2",
+        "silex/silex": "~2.0",
+        "symfony/yaml": "^3.2",
+        "overtrue/wechat": "~3.1"
+    }
+}

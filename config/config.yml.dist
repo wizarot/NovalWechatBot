@@ -1,0 +1,22 @@
+parameters:
+    database_type: mysql
+    database_name: sa_queue
+    server: localhost
+    username: root
+    password: null
+    charset: utf8
+    port: 3306
+    option:
+        8 : 0
+    env: prod
+    telegram: https://integram.org/cuxI45cnZEw
+
+wechat:
+    debug: true
+    app_id: xxxx
+    secret: xxx
+    token: xxxx
+    aes_key: null
+    log:
+        level: debug
+        file: /Users/will/php_productions/will-wizmacau/logs
