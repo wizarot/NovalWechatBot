@@ -22,6 +22,7 @@
 /app/config/local_parameters.yml
 /app/config/mars_parameters.yml
 /app/config/parameters.ini
+/config/config.yml
 
 # Managed by Composer
 /app/bootstrap.php.cache
