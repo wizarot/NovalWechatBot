@@ -90,10 +90,9 @@ $arrJobs = array(
                 'Host:m.biquge.com.tw',
                 'User-Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1',
                 'Accept:text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
-                'Cookie:__cfduid=def57eecc79a993084913ecdfb39872581490236035; a3777_times=2; PHPSESSID=1nbk12ofhomvdhe4epagh9ete5; a4188_times=1; a4191_pages=1; a4191_times=1',
                 'Connection: keep-alive',
                 'Cache-Control: max-age=0',
-                'Cookie:__cfduid=def57eecc79a993084913ecdfb39872581490236035; a3777_times=2; jieqiVisitTime=jieqiArticlesearchTime%3D1491818926; jieqiUserInfo=jieqiUserId%3D60653%2CjieqiUserUname%3Dwizarot%2CjieqiUserName%3Dwizarot%2CjieqiUserGroup%3D3%2CjieqiUserGroupName%3D%C6%D5%CD%A8%BB%E1%D4%B1%2CjieqiUserVip%3D0%2CjieqiUserHonorId%3D%2CjieqiUserHonor%3D%D0%C2%CA%D6%C9%CF%C2%B7%2CjieqiUserPassword%3Dfcea920f7412b5da7be0cf42b8c93759%2CjieqiUserUname_un%3Dwizarot%2CjieqiUserName_un%3Dwizarot%2CjieqiUserHonor_un%3D%26%23x65B0%3B%26%23x624B%3B%26%23x4E0A%3B%26%23x8DEF%3B%2CjieqiUserGroupName_un%3D%26%23x666E%3B%26%23x901A%3B%26%23x4F1A%3B%26%23x5458%3B%2CjieqiUserLogin%3D1491819246; jieqiVisitInfo=jieqiUserLogin%3D1491819246%2CjieqiUserId%3D60653; a4191_pages=7; a4191_times=2; PHPSESSID=glo9mcvgfut8q77v04b2ubgsu3; jieqiVisitId=article_articleviews%3D16588%7C17814%7C12001; a4188_pages=19; a4188_times=4',
+                'Cookie:__cfduid=def57eecc79a993084913ecdfb39872581490236035; a3777_times=2; a4191_times=2; jieqiUserInfo=jieqiUserId%3D60653%2CjieqiUserUname%3Dwizarot%2CjieqiUserName%3Dwizarot%2CjieqiUserGroup%3D3%2CjieqiUserGroupName%3D%C6%D5%CD%A8%BB%E1%D4%B1%2CjieqiUserVip%3D0%2CjieqiUserHonorId%3D%2CjieqiUserHonor%3D%D0%C2%CA%D6%C9%CF%C2%B7%2CjieqiUserPassword%3Dfcea920f7412b5da7be0cf42b8c93759%2CjieqiUserUname_un%3Dwizarot%2CjieqiUserName_un%3Dwizarot%2CjieqiUserHonor_un%3D%26%23x65B0%3B%26%23x624B%3B%26%23x4E0A%3B%26%23x8DEF%3B%2CjieqiUserGroupName_un%3D%26%23x666E%3B%26%23x901A%3B%26%23x4F1A%3B%26%23x5458%3B%2CjieqiUserLogin%3D1491821658; jieqiVisitInfo=jieqiUserLogin%3D1491821658%2CjieqiUserId%3D60653; PHPSESSID=2dopaoi9k2u6jrjglbt5a542e7; a4188_times=6; a4288_pages=2; a4288_times=3',
             ),
         ),
         

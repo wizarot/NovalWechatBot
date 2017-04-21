@@ -20,6 +20,9 @@ $config = Yaml::parse( file_get_contents( __DIR__ . '/../config/config.yml' ) );
 $option = $config['wechat'];
 //echo '<pre>';
 //var_dump($option);
+//file_put_contents('option.log',var_export($option,TRUE));
+//file_put_contents('request.log',var_export($_GET,TRUE));
+//file_put_contents('request.log',var_export($_POST,TRUE),FILE_APPEND);
 //die;
 $app = new WechatApp($option);
 // 从项目实例中得到服务端应用实例。
