@@ -10,27 +10,55 @@
 // php -S localhost:8888 -t web web/app.php
 require __DIR__ . '/../vendor/autoload.php';
 use Symfony\Component\Yaml\Yaml;
-
-$app = new Silex\Application();
-
-//use Symfony\Component\HttpFoundation\Request;
 use EasyWeChat\Foundation\Application as WechatApp;
+use Pimple\Container;
+use src\wechat\User\User AS WechatUser;
+$container = new Container();
 
 $config = Yaml::parse( file_get_contents( __DIR__ . '/../config/config.yml' ) );
 $option = $config['wechat'];
-//echo '<pre>';
-//var_dump($option);
-//file_put_contents('option.log',var_export($option,TRUE));
-//file_put_contents('request.log',var_export($_GET,TRUE));
-//file_put_contents('request.log',var_export($_POST,TRUE),FILE_APPEND);
-//die;
-$app = new WechatApp($option);
+
+$container['data_base'] = function ($c) use ($config) {
+    return new \Medoo\Medoo( $config[ 'parameters' ] );
+};
+
+
+$container['wechat_user'] = function ($c) use ($container) {
+    return new WechatUser($container);
+};
+
+$container['wechat_app'] = function ($c) use ($option) {
+    return new WechatApp($option);
+};
+
+/** @var WechatApp $app */
+$app = $container['wechat_app'];
 // 从项目实例中得到服务端应用实例。
 $server = $app->server;
-$server->setMessageHandler(function ($message) {
-    // $message->FromUserName // 用户的 openid
-    // $message->MsgType // 消息类型：event, text....
-    return "您好！欢迎关注我!";
+//$userService = $app->user;
+
+$server->setMessageHandler(function ($message) use ($container){
+    // 处理微信事件 当 $message->MsgType 为 event 时为事件
+    if ($message->MsgType == 'event') {
+        switch ($message->Event) {
+            case 'subscribe':
+                $openId = $message->from;
+                // 订阅
+                $wechatUser = $container['wechat_user'];
+                return $wechatUser->subscriber($openId);
+                break;
+            case 'unsubscribe':
+                // 取消订阅
+                break;
+            default:
+                // 其它事件
+                break;
+        }
+    }
+
+
+
+    return "您好！我是你的小助手!";
 });
 $response = $server->serve();
 $response->send(); // Laravel 里请使用：return $response;
