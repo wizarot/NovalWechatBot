@@ -9,10 +9,12 @@
 
 // php -S localhost:8888 -t web web/app.php
 require __DIR__ . '/../vendor/autoload.php';
+
 use Symfony\Component\Yaml\Yaml;
 use EasyWeChat\Foundation\Application as WechatApp;
 use Pimple\Container;
-use src\wechat\User\User AS WechatUser;
+//use src\wechat\User\User AS WechatUser;
+
 $container = new Container();
 
 $config = Yaml::parse( file_get_contents( __DIR__ . '/../config/config.yml' ) );
@@ -23,9 +25,9 @@ $container['data_base'] = function ($c) use ($config) {
 };
 
 
-$container['wechat_user'] = function ($c) use ($container) {
-    return new WechatUser($container);
-};
+//$container['wechat_user'] = function ($c) use ($container) {
+//    return new WechatUser($container);
+//};
 
 $container['wechat_app'] = function ($c) use ($option) {
     return new WechatApp($option);
@@ -44,8 +46,10 @@ $server->setMessageHandler(function ($message) use ($container){
             case 'subscribe':
                 $openId = $message->from;
                 // 订阅
-                $wechatUser = $container['wechat_user'];
-                return $wechatUser->subscriber($openId);
+                $userService = $container['wechat_app']->user;
+                $userInfo = $userService->get($openId);
+
+                return '你好,欢迎关注. \\help  获取帮助 '.var_export($userInfo,TRUE);
                 break;
             case 'unsubscribe':
                 // 取消订阅
