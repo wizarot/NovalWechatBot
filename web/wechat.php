@@ -40,34 +40,39 @@ $server = $app->server;
 //$userService = $app->user;
 
 $server->setMessageHandler(function ($message) use ($container){
+
+    $openId = $message->FromUserName;
+    /** @var \Medoo\Medoo $db */
+    $db = $container['data_base'];
+    $result = $db->get('wechat_account','*',['openId'=>$openId]);
+    $insert = FALSE;
+    if(empty($result)){
+        $insert = TRUE;
+        $result['openId'] = $openId;
+        $result['subscribedAt'] = date('Y-m-d H:i:s');
+    }
+    $result['isSubscribed'] = TRUE;
+    $result['lastResponseAt'] = date('Y-m-d H:i:s');
+    $result['infoRefreshedAt'] = date('Y-m-d H:i:s');
+
+    if($insert){
+        $db->insert('wechat_account',$result);
+    }else{
+        $db->update('wechat_account',$result,['openId'=>$openId]);
+    }
+    $db->replace('wechat_account',$result,['openId'=>$openId]);
+
     // 处理微信事件 当 $message->MsgType 为 event 时为事件
     if ($message->MsgType == 'event') {
         switch ($message->Event) {
             case 'subscribe':
-                $openId = $message->from;
                 // 订阅 (个人公众号没法获取用户基本信息.. 那就只能先凑合了.)
-                /** @var \Medoo\Medoo $db */
-                $db = $container['data_base'];
-                $result = $db->get('wechat_account',NULL,'*',['openId'=>$openId]);
-                $insert = FALSE;
-                if(empty($result)){
-                    $insert = TRUE;
-                    $result['openId'] = $openId;
-                    $result['subscribedAt'] = date('Y-m-d H:i:s');
-                }
-                $result['isSubscribed'] = TRUE;
-                $result['lastResponseAt'] = date('Y-m-d H:i:s');
-                $result['infoRefreshedAt'] = date('Y-m-d H:i:s');
-                if($insert){
-                    $db->insert('wechat_account',$result);
-                }else{
-                    $db->update('wechat_account',$result,['openId'=>$openId]);
-                }
 
                 return '你好,欢迎关注. \\help  获取帮助 ';
                 break;
             case 'unsubscribe':
                 // 取消订阅
+                $db->update('wechat_account',['isSubscribed'=>FALSE],['openId'=>$openId]);
                 break;
             default:
                 // 其它事件
