@@ -7,7 +7,7 @@
  * Time: 下午4:25
  */
 
-namespace src\AbstractClass;
+namespace AbstractClass;
 
 
 use Pimple\Container;

@@ -7,10 +7,10 @@
  * Time: 下午4:19
  */
 
-namespace src\wechat\User;
+namespace wechat\User;
 
-
-use src\AbstractClass\AbstractClass;
+use AbstractClass\AbstractClass;
+use Medoo\Medoo;
 
 class User extends AbstractClass
 {
@@ -19,12 +19,30 @@ class User extends AbstractClass
      * @param $openId
      * @return string
      */
-    public function subscriber( $openId )
+    public function updateUser( $openId )
     {
-        $userService = $this->container['wechat_app']->user;
-        $userInfo = $userService->get($openId);
+//        $userService = $this->container['wechat_app']->user;
+//        $userInfo = $userService->get($openId);
+        /** @var Medoo $db */
+        $db = $this->container['data_base'];
+        $result = $db->get('wechat_account','*',['openId'=>$openId]);
+        $insert = FALSE;
+        if(empty($result)){
+            $insert = TRUE;
+            $result['openId'] = $openId;
+            $result['subscribedAt'] = date('Y-m-d H:i:s');
+        }
+        $result['isSubscribed'] = TRUE;
+        $result['lastResponseAt'] = date('Y-m-d H:i:s');
+        $result['infoRefreshedAt'] = date('Y-m-d H:i:s');
 
 
-        return '你好,欢迎关注. \\help  获取帮助 '.var_export($userInfo,TRUE);
+        if($insert){
+            $db->insert('wechat_account',$result);
+        }else{
+            $db->update('wechat_account',$result,['openId'=>$openId]);
+        }
+
+        return TRUE;
     }
 }
