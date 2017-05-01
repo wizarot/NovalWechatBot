@@ -109,7 +109,7 @@ $app->match( '/chapter/{bookId}', function ( Request $request , $bookId ) use ( 
 /**
  * 微信推送
  */
-$app->match( '/wechat/{openId}/?msg={message}', function ( Request $request , $openId,$message ) use ( $app ,$container ) {
+$app->match( '/wechat/{openId}/', function ( Request $request , $openId,$message ) use ( $app ,$container ) {
 
     return $app->json( [ 'status' => 'success', 'openId' => $openId, '$message' => $message ], 200 );
 
