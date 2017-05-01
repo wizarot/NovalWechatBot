@@ -68,7 +68,7 @@ $server->setMessageHandler(function ($message) use ($container){
             case 'subscribe':
                 // 订阅 (个人公众号没法获取用户基本信息.. 那就只能先凑合了.)
 
-                return '你好,欢迎关注. \\help  获取帮助 ';
+                return '你好,欢迎关注. help  获取帮助 ';
                 break;
             case 'unsubscribe':
                 // 取消订阅
@@ -78,6 +78,19 @@ $server->setMessageHandler(function ($message) use ($container){
                 // 其它事件
                 break;
         }
+    }elseif($message->MsgType == 'text'){
+        // 处理文本消息
+        switch ($message->Content) {
+            case 'help':
+                // 帮助信息
+
+                return "请求帮助: help 接受推送地址 {$openId} ";
+                break;
+            default:
+                // 其它事件
+                break;
+        }
+
     }
 
 
