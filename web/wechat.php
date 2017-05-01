@@ -68,7 +68,7 @@ $server->setMessageHandler(function ($message) use ($container){
             case 'help':
                 // 帮助信息
 
-                return "请求帮助: help \n接受推送地址 http://xxxx.com/wechat/{$openId}/msg=yourwangtext \n ";
+                return "请求帮助: help 接受推送地址 {$openId} ";
                 break;
             default:
                 // 其它事件
