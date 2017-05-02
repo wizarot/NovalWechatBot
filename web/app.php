@@ -11,7 +11,12 @@
 require __DIR__ . '/../vendor/autoload.php';
 use Symfony\Component\Yaml\Yaml;
 
+use EasyWeChat\Foundation\Application as WechatApp;
+use Pimple\Container;
+//use src\wechat\User\User AS WechatUser;
+
 $app = new Silex\Application();
+$container = new Container();
 
 use Symfony\Component\HttpFoundation\Request;
 
@@ -100,6 +105,16 @@ $app->match( '/chapter/{bookId}', function ( Request $request , $bookId ) use ( 
     }
 } )->method( 'GET|POST' );
 
+
+/**
+ * 微信推送
+ */
+$app->match( '/wechat/{openId}/', function ( Request $request , $openId ) use ( $app ,$container ) {
+    $message = $request->get('msg');
+
+    return $app->json( [ 'status' => 'success', 'openId' => $openId, 'message'=>$message ], 200 );
+
+} )->method( 'GET|POST' );
 
 // run
 $app->run();

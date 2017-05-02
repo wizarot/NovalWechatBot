@@ -13,7 +13,7 @@ require __DIR__ . '/../vendor/autoload.php';
 use Symfony\Component\Yaml\Yaml;
 use EasyWeChat\Foundation\Application as WechatApp;
 use Pimple\Container;
-use wechat\User\User AS WechatUser;
+//use src\wechat\User\User AS WechatUser;
 
 $container = new Container();
 
@@ -24,9 +24,10 @@ $container['data_base'] = function ($c) use ($config) {
     return new \Medoo\Medoo( $config[ 'parameters' ] );
 };
 
-$container['wechat_user'] = function ($c) use ($container) {
-    return new WechatUser($container);
-};
+
+//$container['wechat_user'] = function ($c) use ($container) {
+//    return new WechatUser($container);
+//};
 
 $container['wechat_app'] = function ($c) use ($option) {
     return new WechatApp($option);
@@ -41,10 +42,25 @@ $server = $app->server;
 $server->setMessageHandler(function ($message) use ($container){
 
     $openId = $message->FromUserName;
-    $container['wechat_user']->updateUser($openId);
     /** @var \Medoo\Medoo $db */
     $db = $container['data_base'];
+    $result = $db->get('wechat_account','*',['openId'=>$openId]);
+    $insert = FALSE;
+    if(empty($result)){
+        $insert = TRUE;
+        $result['openId'] = $openId;
+        $result['subscribedAt'] = date('Y-m-d H:i:s');
+    }
+    $result['isSubscribed'] = TRUE;
+    $result['lastResponseAt'] = date('Y-m-d H:i:s');
+    $result['infoRefreshedAt'] = date('Y-m-d H:i:s');
 
+    if($insert){
+        $db->insert('wechat_account',$result);
+    }else{
+        $db->update('wechat_account',$result,['openId'=>$openId]);
+    }
+    $db->replace('wechat_account',$result,['openId'=>$openId]);
 
     // 处理微信事件 当 $message->MsgType 为 event 时为事件
     if ($message->MsgType == 'event') {
@@ -52,7 +68,7 @@ $server->setMessageHandler(function ($message) use ($container){
             case 'subscribe':
                 // 订阅 (个人公众号没法获取用户基本信息.. 那就只能先凑合了.)
 
-                return '你好,欢迎关注. help  来获取帮助 ';
+                return '你好,欢迎关注. help  获取帮助 ';
                 break;
             case 'unsubscribe':
                 // 取消订阅
@@ -68,7 +84,7 @@ $server->setMessageHandler(function ($message) use ($container){
             case 'help':
                 // 帮助信息
 
-                return "请求帮助: help 接受推送地址 {$openId} ";
+                return "请求帮助: help \n接受推送地址 http://noval.wizarot.me/app.php/wechat/{$openId}/?msg=yourmessage ";
                 break;
             default:
                 // 其它事件
